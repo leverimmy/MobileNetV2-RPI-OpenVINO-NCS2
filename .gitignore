@@ -1,0 +1,8 @@
+# Data
+data/demo/*.png
+data/valid*
+data/label_mapping.json
+
+# Assets
+assets/model/*
+assets/*.tgz
