@@ -1,8 +1,10 @@
 # Data
-data/demo/*.png
-data/valid*
+data/demo/*
+data/valid/*
 data/label_mapping.json
 
 # Assets
 assets/model/*
-assets/*.tgz
+assets/2021.4.zip
+assets/toolkit/*
+assets/wheels/*
