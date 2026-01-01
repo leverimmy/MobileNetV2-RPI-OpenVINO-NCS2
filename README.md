@@ -175,6 +175,9 @@ python3 camera.py
 
 ## Results
 
+-   Average FPS: ~30
+-   Average Inference Time (per frame): ~45 ms
+
 ![Pencil Sharpener](./assets/img/results.png)
 
 ## Appendix
