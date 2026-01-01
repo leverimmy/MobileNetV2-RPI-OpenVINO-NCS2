@@ -6,11 +6,8 @@
 ## Prerequisites
 
 1.  Modify `apt` source, update and upgrade packages.
-2.  Install Python3, `pip3` and uninstall Python2, etc.
-3.  Install `numpy` and `opencv-python`. Required versions are:
-    -   `numpy==`
-    -   `opencv-python==`
-4.  Read the [appendix](#appendix) of this README for assets.
+2.  Install Python3.7, `pip3` and uninstall Python2, etc.
+3.  Install `numpy` and `opencv-python`. Refer to the [appendix](#appendix) of this README for wheels.
 
 ## Install the OpenVINO™ Toolkit for Raspbian OS Package
 
@@ -96,11 +93,13 @@ Then rerun all the instructions above to install OpenVINO™ on that Ubuntu mach
 
 ### Download and Convert the MobileNet V2 Model
 
-First, install Pytorch (cpu-only is fine) and torchvision on your Linux machine:
+First, set up a virtual environment (e.g., named `.venv`). Install `torch` (cpu-only is fine), `torchvision`, `onnx`, and `onnxruntime` on your Linux machine:
 
 ```bash
+source ./.venv/bin/activate
 # Furthermore, you can follow the instructions at https://pytorch.org/get-started/locally/
 pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+pip3 install onnx onnxruntime
 ```
 
 Run the following command to export the model to the ONNX format:
@@ -111,7 +110,15 @@ python3 export.py
 
 Now there should be a file `mobilenet_v2.onnx` in the current directory.
 
-Next, run the following command to convert the ONNX model to OpenVINO™ IR format:
+Next, set up another virtual environment (e.g., named `.onnx`). 
+
+```bash
+cd /opt/intel/openvino_2021/deployment_tools/model_optimizer/install_prerequisites
+source ./.onnx/bin/activate
+install_prerequisites_onnx.sh
+```
+
+Run the following command to convert the ONNX model to OpenVINO™ IR format:
 
 ```bash
 python3 /opt/intel/openvino_2021/deployment_tools/model_optimizer/mo.py \
@@ -120,15 +127,32 @@ python3 /opt/intel/openvino_2021/deployment_tools/model_optimizer/mo.py \
   --input_shape [1,3,224,224]
 ```
 
--   If you try to use MobileNet V3 Small, then an error would occur:
-    
-    ```bash
-
-    ```
 -   If you don't add the argument `--input_shape [1,3,224,224]`, then an error would occur:
 
-    ```bash
-
+    ```
+    [ ERROR ]  Cannot infer shapes or values for node "node_view".
+    [ ERROR ]  Number of elements in input [   0 1280    1    1] and output [np.int64(1), np.int64(1280)] of reshape node node_view mismatch
+    [ ERROR ]  
+    [ ERROR ]  It can happen due to bug in custom shape infer function <function Reshape.infer at 0x7723ee0d2dc0>.
+    [ ERROR ]  Or because the node inputs have incorrect values/shapes.
+    [ ERROR ]  Or because input shapes are incorrect (embedded to the model or passed via --input_shape).
+    [ ERROR ]  Run Model Optimizer with --log_level=DEBUG for more information.
+    [ ERROR ]  Exception occurred during running replacer "REPLACEMENT_ID" (<class 'extensions.middle.PartialInfer.PartialInfer'>): Stopped shape/value propagation at "node_view" node. 
+    For more information please refer to Model Optimizer FAQ, question #38. (https://docs.openvinotoolkit.org/latest/openvino_docs_MO_DG_prepare_model_Model_Optimizer_FAQ.html?question=38#question-38)
+    ```
+-   If you try to transform MobileNet V3 Small ONNX, then an error would occur:
+    
+    ```
+    [ ERROR ]  Cannot infer shapes or values for node "n0".
+    [ ERROR ]  There is no registered "infer" function for node "n0" with op = "HardSwish". Please implement this function in the extensions. 
+    For more information please refer to Model Optimizer FAQ, question #37. (https://docs.openvinotoolkit.org/latest/openvino_docs_MO_DG_prepare_model_Model_Optimizer_FAQ.html?question=37#question-37)
+    [ ERROR ]  
+    [ ERROR ]  It can happen due to bug in custom shape infer function <UNKNOWN>.
+    [ ERROR ]  Or because the node inputs have incorrect values/shapes.
+    [ ERROR ]  Or because input shapes are incorrect (embedded to the model or passed via --input_shape).
+    [ ERROR ]  Run Model Optimizer with --log_level=DEBUG for more information.
+    [ ERROR ]  Exception occurred during running replacer "REPLACEMENT_ID" (<class 'extensions.middle.PartialInfer.PartialInfer'>): Stopped shape/value propagation at "n0" node. 
+    For more information please refer to Model Optimizer FAQ, question #38. (https://docs.openvinotoolkit.org/latest/openvino_docs_MO_DG_prepare_model_Model_Optimizer_FAQ.html?question=38#question-38)
     ```
 
 Now there should be two files `mobilenet_v2.xml` and `mobilenet_v2.bin` in the current directory. (Maybe there's also a `mobilenet_v2.mapping` file, but it's not needed.)
@@ -151,7 +175,7 @@ python3 camera.py
 
 ## Results
 
-
+![Pencil Sharpener](./assets/img/results.png)
 
 ## Appendix
 
@@ -170,5 +194,13 @@ In the release page of this project, there are several assets for your convenien
     -   `mobilenet_v2.xml`
     -   `mobilenet_v2.bin`
 6.  Wheels for required Python packages on Raspbian OS:
-    -   `numpy-`
-    -   `opencv_python-`
+    -   `numpy-1.21.4-cp37-cp37m-linux_armv7l.whl`
+    -   `opencv_python-4.7.0.72-cp37-cp37m-linux_armv7l`
+7.  Installation guide for OpenVINO™ Toolkit 2021.4:
+    -    `2021.4/`
+
+In conclusion, the project folder has the following structure:
+
+```
+
+```
