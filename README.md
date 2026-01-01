@@ -45,7 +45,7 @@ source /opt/intel/openvino_2021/bin/setupvars.sh
 
 `[setupvars.sh] OpenVINO environment initialized` should be printed.
 
-### Add USB Rules for an Intel® Neural Compute Stick 2 device
+### Add USB Rules for an Intel® Neural Compute Stick 2 Device
 
 This task applies only if you have an Intel® Neural Compute Stick 2 device.
 
@@ -181,26 +181,59 @@ python3 camera.py
 
 In the release page of this project, there are several assets for your convenience:
 
-1.  Validation folder, in which contains images for accuracy testing:
-    -   `validation.zip`
-2.  Demo folder, in which contains images for real-time inference testing:
-    -   `demo.zip`
-3.  Label mapping file:
-    -   `label_mapping.json`
-4.  OpenVINO™ Toolkit packages:
+1.  Raspbian OS image of selected version:
+    -   `2020-08-20-raspios-buster-armhf.zip`
+2.  Installation guide for OpenVINO™ Toolkit 2021.4:
+    -    `2021.4/`
+3.  OpenVINO™ Toolkit packages:
     -   `l_openvino_toolkit_runtime_raspbian_p_2021.4.582.tgz`
     -   `l_openvino_toolkit_dev_ubuntu20_p_2021.4.582.tgz`
+4.  Wheels for required Python packages on Raspbian OS:
+    -   `numpy-1.21.4-cp37-cp37m-linux_armv7l.whl`
+    -   `opencv_python-4.7.0.72-cp37-cp37m-linux_armv7l`
 5.  OpenVINO™ IR model files:
     -   `mobilenet_v2.xml`
     -   `mobilenet_v2.bin`
-6.  Wheels for required Python packages on Raspbian OS:
-    -   `numpy-1.21.4-cp37-cp37m-linux_armv7l.whl`
-    -   `opencv_python-4.7.0.72-cp37-cp37m-linux_armv7l`
-7.  Installation guide for OpenVINO™ Toolkit 2021.4:
-    -    `2021.4/`
+6.  Validation folder, in which contains images for accuracy testing:
+    -   `validation.zip`
+7.  Demo folder, in which contains images for real-time inference testing:
+    -   `demo.zip`
+8.  Label mapping file:
+    -   `label_mapping.json`
 
 In conclusion, the project folder has the following structure:
 
 ```
-
+./MobileNetV2-RPI-OpenVINO-NCS2/
+├── assets
+│   ├── 2020-08-20-raspios-buster-armhf.zip
+│   ├── 2021.4.zip
+│   ├── img
+│   │   └── results.png
+│   ├── model
+│   │   ├── mobilenet_v2.bin
+│   │   └── mobilenet_v2.xml
+│   ├── toolkit
+│   │   ├── l_openvino_toolkit_dev_ubuntu20_p_2021.4.582.tgz
+│   │   └── l_openvino_toolkit_runtime_raspbian_p_2021.4.582.tgz
+│   └── wheels
+│       ├── numpy-1.21.4-cp37-cp37m-linux_armv7l.whl
+│       └── opencv_python-4.7.0.72-cp37-cp37m-linux_armv7l.whl
+├── camera.py
+├── data
+│   ├── demo
+│   │   ├── 1.png
+│   │   ├── 2.png
+│   │   ├── 3.png
+│   │   ├── 4.png
+│   │   └── 5.png
+│   ├── label_mapping.json
+│   └── valid
+│       ├── valid_1.jpeg
+│       ├── ...
+│       └── valid.txt
+├── export.py
+├── LICENSE
+├── main.py
+└── README.md
 ```
